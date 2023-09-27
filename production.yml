@@ -9,8 +9,8 @@ services:
   django: &django
     build:
       context: .
-      dockerfile: ./compose/local/django/Dockerfile
-    container_name: demo_django
+      dockerfile: ./compose/production/django/Dockerfile
+    container_name: idealdentdjango
     depends_on:
       - postgres
     volumes:
@@ -61,7 +61,7 @@ services:
 
   redis:
     image: redis
-    container_name: demo_redis
+    container_name: idealdent_redis
     hostname: redisdb
     ports:
       - "6383:6383"
@@ -73,7 +73,7 @@ services:
 
   celeryworkerbeat:
     <<: *django
-    container_name: demo_celeryworkerbeat
+    container_name: idealdent_celeryworkerbeat
     depends_on:
       - redis
       - postgres
@@ -82,7 +82,7 @@ services:
 
   celerybeat:
     <<: *django
-    container_name: demo_celerybeat
+    container_name: idealdent_celerybeat
     depends_on:
       - redis
       - postgres
