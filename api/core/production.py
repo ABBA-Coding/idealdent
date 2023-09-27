@@ -9,7 +9,7 @@ try:
     from sentry_sdk.integrations.redis import RedisIntegration
 except ImportError:
     ...
-
+DEBUG = False
 # GENERAL
 # ------------------------------------------------------------------------------
 
