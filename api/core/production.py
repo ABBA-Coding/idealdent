@@ -1,12 +1,14 @@
-import logging
+from .settings import *  # noqa
+from .settings import env
 
 try:
     import sentry_sdk
+    from sentry_sdk.integrations.celery import CeleryIntegration
     from sentry_sdk.integrations.django import DjangoIntegration
     from sentry_sdk.integrations.logging import LoggingIntegration
+    from sentry_sdk.integrations.redis import RedisIntegration
 except ImportError:
     ...
-from .settings import *  # noqa
 
 # GENERAL
 # ------------------------------------------------------------------------------
@@ -43,13 +45,8 @@ SECURE_CONTENT_TYPE_NOSNIFF = env.bool(
 # https://docs.djangoproject.com/en/dev/ref/settings/#email-subject-prefix
 EMAIL_SUBJECT_PREFIX = env(
     "DJANGO_EMAIL_SUBJECT_PREFIX",
-    default="[Svitlogorie.ru]",
+    default="[idealdent.itlink.uz]",
 )
-
-# ADMIN
-# ------------------------------------------------------------------------------
-# Django Admin URL regex.
-ADMIN_URL = env("DJANGO_ADMIN_URL")
 
 # https://docs.djangoproject.com/en/dev/ref/settings/#email-backend
 # https://anymail.readthedocs.io/en/stable/installation/#anymail-settings-reference
@@ -94,9 +91,6 @@ LOGGING = {
         },
     },
 }
-
-# Sentry
-# ------------------------------------------------------------------------------
 SENTRY_DSN = env("SENTRY_DSN")
 SENTRY_LOG_LEVEL = env.int("DJANGO_SENTRY_LOG_LEVEL", logging.INFO)
 
@@ -107,6 +101,8 @@ sentry_logging = LoggingIntegration(
 integrations = [
     sentry_logging,
     DjangoIntegration(),
+    CeleryIntegration(),
+    RedisIntegration(),
 ]
 sentry_sdk.init(
     dsn=SENTRY_DSN,
@@ -114,7 +110,4 @@ sentry_sdk.init(
     environment=env("SENTRY_ENVIRONMENT", default="production"),
     traces_sample_rate=env.float("SENTRY_TRACES_SAMPLE_RATE", default=0.0),
 )
-
-# Your stuff...
-# ------------------------------------------------------------------------------
-REST_FRAMEWORK["DEFAULT_RENDERER_CLASSES"] = ("rest_framework.renderers.JSONRenderer",) # noqa F405
+CORS_ALLOWED_ORIGINS = ["https://idealdent.itlink.uz", ]

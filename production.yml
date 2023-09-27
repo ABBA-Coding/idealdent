@@ -14,10 +14,11 @@ services:
     depends_on:
       - postgres
     volumes:
-      - ./api:/app:z
-      - /var/www/demo_app:/var/www/demo_app:z
+      - .:/app:z
+      - /var/www/idealdent.itlink.uz/media:/app/media:z
+      - /var/www/idealdent.itlink.uz/static:/app/staticfiles:z
     env_file:
-      - .env
+      - ./.env
     ports:
       - '8000:8000'
     environment:
