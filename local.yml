@@ -22,7 +22,7 @@ services:
     ports:
       - '8000:8000'
     environment:
-      - DJANGO_SETTINGS_MODULE=api.core.local  # Set the DEBUG environment variable
+      - DJANGO_SETTINGS_MODULE=api.core.local
     command: /start
     networks:
       - tg_bot

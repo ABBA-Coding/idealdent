@@ -20,9 +20,9 @@ services:
     env_file:
       - ./.env
     ports:
-      - '8000:8000'
+      - '8065:8000'
     environment:
-      - DJANGO_DEBUG=false  # Set the DEBUG environment variable
+      - DJANGO_SETTINGS_MODULE=api.core.production
     command: /start
     networks:
       - tg_bot
